@@ -2487,7 +2487,7 @@ figure.gallery-group .gallery-group-name:after {
   transition: all 0.5s;
 }
 #nav.full_page {
-  height: 100vh;
+  height: 400px;
 }
 #nav.full_page #site-info {
   position: absolute;
