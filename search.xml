@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>第1章 k8s简介</title>
+      <link href="/2020/04/09/%E7%AC%AC1%E7%AB%A0-k8s%E7%AE%80%E4%BB%8B/"/>
+      <url>/2020/04/09/%E7%AC%AC1%E7%AB%A0-k8s%E7%AE%80%E4%BB%8B/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1 id="第1章-k8s简介"><a href="#第1章-k8s简介" class="headerlink" title="第1章 k8s简介"></a>第1章 k8s简介</h1><p><a href="https://kubernetes.io/" target="_blank" rel="noopener">Kubernetes</a> 简称k8s. 是一个开源的 Linux<br>容器自动化运维平台，它消除了容器化应用程序在部署、伸缩时涉及到的许多手动操作。换句话说，你可以将多台主机组合成集群来运行<br>Linux 容器，而 Kubernetes可以帮助你简单高效地管理那些集群。</p><p>Kubernetes 最开始是由 Google 的工程师设计开发的。Google 作为 Linux<br>容器技术的早期贡献者之一，曾公开演讲介绍 Google 如何将一切都运行于容器之中（这是<br>Google 的云服务背后的技术）。Google一周内的容器部署超过 20<br>亿次，全部的工作都由内部平台 Borg支撑。Borg是 Kubernetes 的前身，几年来开发 Borg<br>的经验教训也成了影响 Kubernetes 中许多技术的主要因素。</p><h1 id="第2章-k8s特性"><a href="#第2章-k8s特性" class="headerlink" title="第2章 k8s特性"></a>第2章 k8s特性</h1><p>Kubernetes是为生产环境而设计的容器调度管理系统，对于负载均衡、服务发现、高可用、滚动升级、自动伸缩等容器云平台的功能要求有原生支持</p><p>一个K8s集群是由分布式存储（etcd）、服务节点（Minion，etcd现在称为Node）和控制节点（Master）构成的。所有的集群状态都保存在etcd中，<br>Master节点上则运行集群的管理控制模块。<br>Node节点是真正运行应用容器的主机节点，在每个Minion节点上都会运行一个Kubelet代理，控制该节点上的容器、镜像和存储卷等。</p><h1 id="第3章-k8s系统架构"><a href="#第3章-k8s系统架构" class="headerlink" title="第3章 k8s系统架构"></a>第3章 k8s系统架构</h1><p>Kubernetes被设计为Master和Node两个节点，Master为控制节点，Node为计算节点或工作节点，在Master节点上有一个API<br>Server，对外提供标准的RestAPI,这也是Kubernetes集群的入口，意味只要和集群交互就必须连到API<br>Server</p><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/53f7c5494fd6e7788baee5b1267d8997/07240F78F6E84164AF4EBCA3CB172C2C?ynotemdtimestamp=1586429563125"  alt="image"></p><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/53f7c5494fd6e7788baee5b1267d8997/23F75CFA322A43368E0CE0703CA297C5?ynotemdtimestamp=1586429563125"  alt="image"></p><h2 id="3-1-Master节点介绍"><a href="#3-1-Master节点介绍" class="headerlink" title="3.1 Master节点介绍"></a>3.1 Master节点介绍</h2><p>Master节点主要有4个组件，API Server, Scheduler, Contoller, etcd</p><h3 id="1-API-Server"><a href="#1-API-Server" class="headerlink" title="1.API Server"></a>1.API Server</h3><p>提供Kubernetes<br>API接口，主要处理Rest操作以及更新Etcd中的对象，是所有资源增删改查的唯一入口。</p><h3 id="2-Scheduler"><a href="#2-Scheduler" class="headerlink" title="2.Scheduler"></a>2.Scheduler</h3><p>绑定Pod到Node上，主要做资源调度</p><h3 id="3-Controller-Manager"><a href="#3-Controller-Manager" class="headerlink" title="3.Controller Manager"></a>3.Controller Manager</h3><p>所有其他集群级别的功能，目前由控制器器Manager执行。资源对象的自动化控制中心，Kubernetes集群有很多控制器。</p><h3 id="4-Etcd"><a href="#4-Etcd" class="headerlink" title="4.Etcd"></a>4.Etcd</h3><p>所有持久化的状态信息存储在Etcd中，这个是Kubernetes集群的数据库</p><h2 id="3-2-Node节点介绍"><a href="#3-2-Node节点介绍" class="headerlink" title="3.2 Node节点介绍"></a>3.2 Node节点介绍</h2><p>Node节点是Kuerntes集群的工作节点,Node节点上主要运行了Docker,Kubelet,kub-proxy<strong>三个服务</strong></p><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/53f7c5494fd6e7788baee5b1267d8997/41F42C504F6E49FD88B0DFE4DE485610?ynotemdtimestamp=1586429563125"  alt="image"></p><p><strong>1.Docker Engine</strong></p><p>负责节点容器的管理工作，最终创建出来的是一个Docker容器。</p><p><strong>2.kubelet</strong></p><p>安装在Node上的代理服务，用来管理Pods以及容器/镜像/Volume等，实现对集群对节点的管理。</p><p><strong>3.kube-proxy</strong></p><p>安装在Node上的网络代理服务，提供网络代理以及负载均衡，实现与Service通讯。</p><h1 id="第4章-kubernetes逻辑架构"><a href="#第4章-kubernetes逻辑架构" class="headerlink" title="第4章 kubernetes逻辑架构"></a>第4章 kubernetes逻辑架构</h1><h2 id="4-1-Pod"><a href="#4-1-Pod" class="headerlink" title="4.1 Pod"></a>4.1 Pod</h2><p>Pod是Kubernetes的最小管理单元，一个Pod可以包含一组容器和卷。虽然一个Pod里面可以包含一个或者多个容器，但是Pod只有一个IP地址，而且Pod重启后，IP地址会发生变化。</p><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/53f7c5494fd6e7788baee5b1267d8997/7E22BF8ACB2A420EA993F3D16B04FE42?ynotemdtimestamp=1586429563125"  alt="image"></p><h2 id="4-2-Controller"><a href="#4-2-Controller" class="headerlink" title="4.2 Controller"></a>4.2 Controller</h2><p>集群中会有很多Pod，那么就需要使用控制器来管理Pod</p><p>k8s中有很多控制器，常见的控制器如下：</p><ul><li>Replication Controller（新版本已经被ReplicaSet所替代）</li><li>ReplicaSet（新版本被封装在Deployment中）</li><li>Deployment：封装了Pod的副本管理、部署更新、回滚、扩容、缩容等功能。</li><li>DaemonSet：保证所有的Node上有且只有一个Pod在运行。</li><li>StatefulSet：有状态的应用，为 Pod 提供唯一的标识，它可以保证部署和 scale</li><li>的顺序。</li><li>Job：使用Kubernetes运行单一任务。</li><li>CronJob：使用Kubernetes运行定时任务。</li></ul><h2 id="4-3-Service"><a href="#4-3-Service" class="headerlink" title="4.3 Service"></a>4.3 Service</h2><p>由于Pod的生命周期是短暂的，而且每次重启Pod的IP地址都会发生变化，而且一个Pod有多个副本，也就是说一个集群中有了多个节点，就需要考虑负载均衡的问题。Kubernetes使用Service来实现Pod的访问，而且Service有一个Cluster<br>IP，通常也称之为VIP，是固定不变的。</p><h1 id="第5章-kubernetes网络介绍"><a href="#第5章-kubernetes网络介绍" class="headerlink" title="第5章 kubernetes网络介绍"></a>第5章 kubernetes网络介绍</h1><p>在Kubernetes集群中存在着三种网络，分别是Node网络、Pod网络和Service网络，这几种网络之间的通信需要依靠网络插件，Kubernetes本身并没有提供，社区提供了像Flannel、Calico、Cannal等网络插件。</p><h2 id="5-1-Node网络"><a href="#5-1-Node网络" class="headerlink" title="5.1 Node网络"></a>5.1 Node网络</h2><p>Node网络指的是Kubernetes<br>Node节点本地的网络，在本实验环境中使用的是10.0.0./24这个网段，所有的Node和Master在该网段都可以正常通信。</p><h2 id="5-2-Service网络"><a href="#5-2-Service网络" class="headerlink" title="5.2 Service网络"></a>5.2 Service网络</h2><p>Service是为Pod提供访问和负载均衡的网络地址段</p><h2 id="5-3-Pod网络"><a href="#5-3-Pod网络" class="headerlink" title="5.3 Pod网络"></a>5.3 Pod网络</h2><p>后面创建的Pod，每一个Pod都会有一个IP地址，这个IP地址网络段被称之为Pod网络，如下图所示。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> dokcer </tag>
+            
+            <tag> k8s </tag>
+            
+            <tag> 容器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Docker容器</title>
       <link href="/2020/04/09/Docker%E5%AE%B9%E5%99%A8/"/>
       <url>/2020/04/09/Docker%E5%AE%B9%E5%99%A8/</url>
