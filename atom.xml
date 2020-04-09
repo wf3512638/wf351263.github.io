@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://linuxwf.com/"/>
-  <updated>2020-04-09T04:59:23.384Z</updated>
+  <updated>2020-04-09T05:27:26.834Z</updated>
   <id>http://linuxwf.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo添加RSS订阅</title>
+    <link href="http://linuxwf.com/2020/04/09/Hexo%E6%B7%BB%E5%8A%A0RSS%E8%AE%A2%E9%98%85/"/>
+    <id>http://linuxwf.com/2020/04/09/Hexo%E6%B7%BB%E5%8A%A0RSS%E8%AE%A2%E9%98%85/</id>
+    <published>2020-04-09T05:26:00.000Z</published>
+    <updated>2020-04-09T05:27:26.834Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="安装feed插件"><a href="#安装feed插件" class="headerlink" title="安装feed插件"></a>安装feed插件</h2><p><strong>hexo博客有一个专门生成RSS xml文件的插件<code>hexo-generator-feed</code></strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-feed</span><br></pre></td></tr></table></figure><h2 id="启用插件"><a href="#启用插件" class="headerlink" title="启用插件"></a>启用插件</h2><p>在博客工程文件根目录下<code>_config.yml</code>文件中添加如下内容</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">plugins:</span><br><span class="line">    hexo-generator-feed</span><br><span class="line">#Feed Atom</span><br><span class="line">feed:</span><br><span class="line">    type: atom</span><br><span class="line">    path: atom.xml</span><br><span class="line">    limit: 20</span><br></pre></td></tr></table></figure><h2 id="生成RSS"><a href="#生成RSS" class="headerlink" title="生成RSS"></a>生成RSS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure><h2 id="订阅"><a href="#订阅" class="headerlink" title="订阅"></a>订阅</h2><h3 id="新建订阅"><a href="#新建订阅" class="headerlink" title="新建订阅"></a>新建订阅</h3><p><strong>订阅地址为： <a href="https://www.linuxwf.com/atom.xml" target="_blank" rel="noopener">https://www.linuxwf.com/atom.xml</a> （PS：订阅地址改为自己的博客）</strong></p><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/0a4c7f6e5952926d5443d353067af10b/FFF4606B38824B69BDB9DE37C7FB1EAB?ynotemdtimestamp=1586409584945"  alt="image"></p><h3 id="订阅成功"><a href="#订阅成功" class="headerlink" title="订阅成功"></a>订阅成功</h3><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/0a4c7f6e5952926d5443d353067af10b/7829F79D72084FF5BABA1C8FDE298975?ynotemdtimestamp=1586409584945"  alt="image"></p><h3 id="查看邮箱中的博文"><a href="#查看邮箱中的博文" class="headerlink" title="查看邮箱中的博文"></a>查看邮箱中的博文</h3><p><img src="/" class="lazyload" data-src="https://note.youdao.com/yws/public/resource/0a4c7f6e5952926d5443d353067af10b/57D60F88CBA44799B3A2EEC1947299CB?ynotemdtimestamp=1586409584945"  alt="image"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+      <category term="Hexo教程" scheme="http://linuxwf.com/categories/Hexo%E6%95%99%E7%A8%8B/"/>
+    
+    
+      <category term="hexo" scheme="http://linuxwf.com/tags/hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>Hexo-Aplayer播放器</title>
