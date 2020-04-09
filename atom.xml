@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://linuxwf.com/"/>
-  <updated>2020-04-09T12:01:06.880Z</updated>
+  <updated>2020-04-09T12:26:18.289Z</updated>
   <id>http://linuxwf.com/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>harbor镜像仓库</title>
+    <link href="http://linuxwf.com/2020/04/09/harbor%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/"/>
+    <id>http://linuxwf.com/2020/04/09/harbor%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/</id>
+    <published>2020-04-09T12:25:00.000Z</published>
+    <updated>2020-04-09T12:26:18.289Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="安装harbor并创建项目"><a href="#安装harbor并创建项目" class="headerlink" title="安装harbor并创建项目"></a>安装harbor并创建项目</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yum install -y python2-pip</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U</span><br><span class="line">pip config <span class="built_in">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">pip install docker-compose</span><br><span class="line"><span class="built_in">cd</span> /opt/</span><br><span class="line">wget https://storage.googleapis.com/harbor-releases/release-1.9.0/harbor-offline-installer-v1.9.0-rc1.tgz</span><br><span class="line">tar zxf harbor-offline-installer-v1.9.0-rc1.tgz</span><br><span class="line"><span class="built_in">cd</span> harbor/</span><br><span class="line">sed -i <span class="string">'/^hostname/c hostname: 10.0.0.11'</span> harbor.yml</span><br><span class="line">sed -i <span class="string">'/^harbor_admin_passwordr.yml/c harbor_admin_password: 123456'</span> harbor.yml</span><br><span class="line">sed -i <span class="string">'/^data_volume/c data_volume: /data/harbor'</span> harbor.yml</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure><p>创建项目</p><p>10.0.0.11</p><p>新建私有项目</p><h2 id="配置docker信任harbor仓库"><a href="#配置docker信任harbor仓库" class="headerlink" title="配置docker信任harbor仓库"></a>配置docker信任harbor仓库</h2><p>注意！所有的节点都要操作</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/docker/daemon.json&lt;&lt;EOF </span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://1660dchq.mirror.aliyuncs.com"</span>],</span><br><span class="line">  <span class="string">"exec-opts"</span>: [<span class="string">"native.cgroupdriver=systemd"</span>],</span><br><span class="line">  <span class="string">"insecure-registries"</span>: [<span class="string">"http://10.0.0.11"</span>] </span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure><p>所有节点都登陆docker-harbor</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login 10.0.0.11</span><br></pre></td></tr></table></figure><h2 id="将镜像打包并推送到harbor仓库"><a href="#将镜像打包并推送到harbor仓库" class="headerlink" title="将镜像打包并推送到harbor仓库"></a>将镜像打包并推送到harbor仓库</h2><ol><li>拉取2个Nginx镜像</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># docker pull nginx:1.14.0</span></span><br><span class="line"></span><br><span class="line">[root@node1 ~]<span class="comment"># docker pull nginx:1.16.0</span></span><br></pre></td></tr></table></figure><ol start="2"><li>给镜像打标签</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># docker tag nginx:1.14.0 10.0.0.11/k8s/nginx:1.14.0</span></span><br><span class="line"></span><br><span class="line">[root@node1 ~]<span class="comment"># docker tag nginx:1.16.0 10.0.0.11/k8s/nginx:1.16.0</span></span><br></pre></td></tr></table></figure><ol start="3"><li>推送到镜像仓库</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># docker push 10.0.0.11/k8s/nginx:1.14.0</span></span><br><span class="line"></span><br><span class="line">[root@node1 ~]<span class="comment"># docker push 10.0.0.11/k8s/nginx:1.16.0</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+      <category term="Docker容器" scheme="http://linuxwf.com/categories/Docker%E5%AE%B9%E5%99%A8/"/>
+    
+    
+      <category term="docker" scheme="http://linuxwf.com/tags/docker/"/>
+    
+      <category term="k8s" scheme="http://linuxwf.com/tags/k8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker镜像加速</title>
+    <link href="http://linuxwf.com/2020/04/09/Docker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
+    <id>http://linuxwf.com/2020/04/09/Docker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/</id>
+    <published>2020-04-09T12:15:00.000Z</published>
+    <updated>2020-04-09T12:18:27.560Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="Docker镜像加速"><a href="#Docker镜像加速" class="headerlink" title="Docker镜像加速"></a>Docker镜像加速</h2><ul><li>docker 中，只能够为 docker 官方镜像仓库 hub.docker.com 提供 mirror 加速，自建的 docker 镜像仓库是不能配置 mirror 加速的；</li><li>如果您参考 kuboard.cn 提供的 kubernetes 安装文档，默认使用的 docker mirror 是 <a href="https://registry.cn-hangzhou.aliyuncs.com" target="_blank" rel="noopener">https://registry.cn-hangzhou.aliyuncs.com</a> 。</li></ul><h2 id="修改镜像仓库-mirror-地址"><a href="#修改镜像仓库-mirror-地址" class="headerlink" title="#修改镜像仓库 mirror 地址"></a><a href="https://kuboard.cn/install/docker-mirror.html#修改镜像仓库-mirror-地址" target="_blank" rel="noopener">#</a>修改镜像仓库 mirror 地址</h2><p>本文提供了快速修改的方式和手工修改的方式，效果相同</p><h3 id="快速修改"><a href="#快速修改" class="headerlink" title="快速修改"></a>快速修改</h3><ul><li>下面提供了四个 mirror 地址，您可以去掉其中任意一个地址的注释，以使用该 mirror 地址。</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Docker中国 mirror</span></span><br><span class="line"><span class="comment"># export REGISTRY_MIRROR="https://registry.docker-cn.com"</span></span><br><span class="line"><span class="comment"># 腾讯云 docker hub mirror</span></span><br><span class="line"><span class="comment"># export REGISTRY_MIRROR="https://mirror.ccs.tencentyun.com"</span></span><br><span class="line"><span class="comment"># 华为云镜像</span></span><br><span class="line"><span class="comment"># export REGISTRY_MIRROR="https://05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com"</span></span><br><span class="line"><span class="comment"># DaoCloud 镜像</span></span><br><span class="line"><span class="comment"># export REGISTRY_MIRROR="http://f1361db2.m.daocloud.io"</span></span><br><span class="line"><span class="comment"># 阿里云 docker hub mirror</span></span><br><span class="line"><span class="built_in">export</span> REGISTRY_MIRROR=https://registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/set_mirror.sh | sh -s <span class="variable">$&#123;REGISTRY_MIRROR&#125;</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">systemctl restart kubelet  <span class="comment"># 假设您安装了 kubenetes</span></span><br></pre></td></tr></table></figure><h3 id="手工修改"><a href="#手工修改" class="headerlink" title="手工修改"></a>手工修改</h3><ul><li><p>修改 /etc/docker/daemon.json 文件（如果没有，则创建）：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></li><li><p>添加 registry-mirrors 字段：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> <span class="string">"registry-mirrors"</span>: [<span class="string">"https://registry.cn-hangzhou.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>重启 docker/kubelet</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">systemctl start kubelet <span class="comment"># 假设您安装了 kubenetes</span></span><br></pre></td></tr></table></figure></li></ul><h2 id="查看修改结果"><a href="#查看修改结果" class="headerlink" title="查看修改结果"></a>查看修改结果</h2><ul><li>执行命令</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure><ul><li>查看结果</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">Docker Root Dir: /var/lib/docker</span><br><span class="line">Debug Mode (client): <span class="literal">false</span></span><br><span class="line">Debug Mode (server): <span class="literal">false</span></span><br><span class="line">Registry: https://index.docker.io/v1/</span><br><span class="line">Labels:</span><br><span class="line">Experimental: <span class="literal">false</span></span><br><span class="line">Insecure Registries:</span><br><span class="line"> 127.0.0.0/8</span><br><span class="line">Registry Mirrors:</span><br><span class="line"> https://registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">Live Restore Enabled: <span class="literal">false</span></span><br><span class="line">Product License: Community Engine</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+      <category term="Docker容器" scheme="http://linuxwf.com/categories/Docker%E5%AE%B9%E5%99%A8/"/>
+    
+    
+      <category term="docker" scheme="http://linuxwf.com/tags/docker/"/>
+    
+      <category term="k8s" scheme="http://linuxwf.com/tags/k8s/"/>
+    
+  </entry>
   
   <entry>
     <title>使用kubeadm安装K8s</title>
