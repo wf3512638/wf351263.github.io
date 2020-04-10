@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>Trojan一键安装脚本</title>
+      <link href="/2020/04/10/rojan%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
+      <url>/2020/04/10/rojan%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最简单的 Trojan 一键脚本，效率高/速度快/延迟低，系统支持 centos7 /debian9 /ubuntu16 ，完美支持 tls1.3，个人体验速度和延迟都优于 v2ray ws tls1.3，本次的 trojan 一键脚本使用了官方编译的二进制文件，搭建非常快速和简单。脚本中集成了 Trojan 的 Windows 客户端，自动配置证书及启动脚本，安装完成直接下载客户端即可。</p><p><strong>Trojan 面板（Panel）的一键安装脚本已经发布，详情请访问 ：<a href="https://www.v2rayssr.com/trojan-panel-aoto.html" target="_blank" rel="noopener">https://www.v2rayssr.com/trojan-panel-aoto.html</a></strong></p><h2 id="脚本准备及功能"><a href="#脚本准备及功能" class="headerlink" title="脚本准备及功能"></a>脚本准备及功能</h2><ol><li>系统支持 centos7 /debian9 /ubuntu16</li><li>域名解析到 VPS 并生效。</li><li>脚本自动续签 SSL 证书</li><li>自动配置伪装网站，位于/usr/share/nginx/html/目录下，可自行替换其中内容</li><li>请不要在任何<strong>生产环境</strong>使用一键脚本，此条适用于本站所有脚本，专门用来科学上网的 VPS 可以随意使用。</li></ol><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135451.png"  alt=""></p><h2 id="Trojan-和-v2ray-ws-tls-对比"><a href="#Trojan-和-v2ray-ws-tls-对比" class="headerlink" title="Trojan 和 v2ray ws tls 对比"></a>Trojan 和 v2ray ws tls 对比</h2><p>下面有两张图，可以看出 Trojan 和 v2ray ws tls 还有有一些区别的。但是，由于 Trojan 还算是新兴产物，一些客户端的匹配还没有那么完善，所以，选择哪种方式，就萝卜青菜了。</p><p>下面的图片来源 YouTube 洋葱</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135527.png"  alt=""></p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135548.png"  alt=""></p><h2 id="一键脚本代码"><a href="#一键脚本代码" class="headerlink" title="一键脚本代码"></a>一键脚本代码</h2><p>此脚本感谢 atrandys</p><p>Github 项目地址：<a href="https://www.v2rayssr.com/go?url=https://github.com/atrandys/trojan" target="_blank" rel="noopener">点击访问</a></p><p>波仔在 atrandys 的基础之上，合成了 4 IN 1 的一个 BBRPLUS 加速脚本，方便大家使用</p><p>安装好 curl，若是有此环境，请跳过</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update -y &amp;&amp; apt-get install curl -y    <span class="comment">##Ubuntu/Debian 系统安装 Curl 方法</span></span><br><span class="line">yum update -y &amp;&amp; yum install curl -y            <span class="comment">##Centos 系统安装 Curl 方法</span></span><br></pre></td></tr></table></figure><p>有些 VPS 需要安装 <code>XZ</code> 压缩工具</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install xz-utils   <span class="comment">#Debian/Ubuntu 安装 XZ 压缩工具命令</span></span><br><span class="line">yum install xz    <span class="comment">#CentOS 安装 XZ 压缩工具</span></span><br></pre></td></tr></table></figure><p>Trojan 一键脚本代码：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -s -L https://github.com/V2RaySSR/Trojan/raw/master/Trojan.sh)</span><br></pre></td></tr></table></figure><h2 id="下载-Trojan-Windows-Mac-客户端"><a href="#下载-Trojan-Windows-Mac-客户端" class="headerlink" title="下载 Trojan Windows/Mac 客户端"></a>下载 Trojan Windows/Mac 客户端</h2><p>安装完成后，会展示一条下载地址，复制地址，并下载下来即可。</p><p>Trojan Windows 客户端：<a href="https://www.v2rayssr.com/go?url=https://github.com/V2RaySSR/Trojan/raw/master/trojan-client.zip" target="_blank" rel="noopener">点击下载</a></p><h2 id="搭配-Chrome-浏览器插件使用"><a href="#搭配-Chrome-浏览器插件使用" class="headerlink" title="搭配 Chrome 浏览器插件使用"></a>搭配 Chrome 浏览器插件使用</h2><blockquote><p>chrome socks5 插件：<a href="https://www.v2rayssr.com/go?url=https://github.com/V2RaySSR/Trojan/raw/master/SwitchyOmega_Chromium.zip" target="_blank" rel="noopener">SwitchyOmega_Chromium</a> 不要解压 直接拖放这个插件到 chrome 扩展程序页面</p></blockquote><p>安装插件，打开 chrome，打开扩展程序，将下载的插件拖动到扩展程序页面，添加到扩展。</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135748.png"  alt=""></p><p>完成添加，会跳转到 switchyomega 页面，点跳过教程，然后点击 proxy，如图填写，最后点击应用选项。</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135828.png"  alt=""></p><p>然后进入 auto switch，删除最上方两条规则，然后点击添加规则列表。</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135907.png"  alt=""></p><p>然后，在规则列表规则中，情景模式改为 proxy，规则列表网站复制下面的网址，然后点击立即更新情景模式，保存即可。</p><blockquote><p><a href="https://www.v2rayssr.com/go?url=http://$" target="_blank" rel="noopener">http://$</a>{your_domain}/trojan.txt  服务器为你生成的网络地址</p></blockquote><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410135941.png"  alt=""></p><p>点击 chrome 右上角 switchyomega 图标，选择 auto switch 模式即可。</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410140029.png"  alt=""></p><p>之后你便可以自由上网，教程到此结束。</p><h2 id="电脑上其他软件如何使用-Trojan"><a href="#电脑上其他软件如何使用-Trojan" class="headerlink" title="电脑上其他软件如何使用 Trojan"></a><strong>电脑上其他软件如何使用 Trojan</strong></h2><blockquote><p>1、如果软件支持配置 socks5，直接指向 <code>127.0.0.1：1080</code> 即可。</p><p>2、如果软件不支持配置 socks5，可选择 <code>sstap/sockscap64/supercap</code>等软件，曲线实现代理。</p></blockquote><h2 id="服务端怎么修改密码"><a href="#服务端怎么修改密码" class="headerlink" title="服务端怎么修改密码"></a>服务端怎么修改密码</h2><p><code>trojan</code> 服务端配置文件路径如下，如需修改内容，修改以下文件即可。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/src/trojan/server.conf</span><br></pre></td></tr></table></figure><p>修改完成后，重启 trojan 服务端即可，同时客户端的密码也要同步修改哦。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart trojan</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 科学上网 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vpn </tag>
+            
+            <tag> trojan </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>BBR PLUS一键安装实现Shadowsocks暴力加速</title>
+      <link href="/2020/04/10/BBR-PLUS%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%AE%9E%E7%8E%B0Shadowsocks%E6%9A%B4%E5%8A%9B%E5%8A%A0%E9%80%9F/"/>
+      <url>/2020/04/10/BBR-PLUS%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%AE%9E%E7%8E%B0Shadowsocks%E6%9A%B4%E5%8A%9B%E5%8A%A0%E9%80%9F/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>魔改版BBR可以使VPS实现加速，但是原版(v1.1.7)偶尔会出现高丢包率下易失速以及bbr收敛慢的问题。最新版BBR PLUS修正版可以更好的实现加速效果。下面就是魔改BBR PLUS修正版一键安装步骤。</p><p>安装环境：</p><ul><li>CentOS 7.5 x64</li><li>网络：联通、电信环境测试；</li></ul><h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks"></a>安装Shadowsocks</h2><p>在部署BBR之前，我们先安装一下Shadowsocks，安装过程请参考之前的文章：<a href="https://www.gz1903.club/2019/11/09/Linux科学上网搭建/" target="_blank" rel="noopener">在CENTOS 7上搭建Shadowsocks图文教程</a>；</p><h2 id="一键安装BBR-PLUS修正版"><a href="#一键安装BBR-PLUS修正版" class="headerlink" title="一键安装BBR PLUS修正版"></a>一键安装BBR PLUS修正版</h2><p>依次执行下面的命令：</p><h3 id="安装wget"><a href="#安装wget" class="headerlink" title="安装wget"></a>安装wget</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure><h3 id="执行BBR-PLUS修正版一键脚本"><a href="#执行BBR-PLUS修正版一键脚本" class="headerlink" title="执行BBR PLUS修正版一键脚本"></a>执行BBR PLUS修正版一键脚本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate <span class="string">"https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh"</span> &amp;&amp; chmod +x tcp.sh &amp;&amp; ./tcp.sh</span><br></pre></td></tr></table></figure><p>如下图所示，先输入<code>2</code>，安装 BBRplus版内核，安装完之后重启系统，再运行脚本，输入<code>7</code>，使用BBRplus版加速，一键安装：</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410134529.png"  alt=""></p><p>安装之后的效果：</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410134619.png"  alt=""></p><blockquote><p>Openvz 的机子装不了锐速</p></blockquote><h2 id="确定虚拟化技术"><a href="#确定虚拟化技术" class="headerlink" title="确定虚拟化技术"></a>确定虚拟化技术</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/code/master/vm_check.sh &amp;&amp; bash vm_check.sh</span><br></pre></td></tr></table></figure><p>代码运行结束就会在最后一行显示虚拟化技术： kvm 还是 openv 或者是 xen 一目了然。</p><p><img src="/" class="lazyload" data-src="http://cdn.linuxwf.com/img/20200410134743.png"  alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 科学上网 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> bbr加速 </tag>
+            
+            <tag> vpn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PicGo  一款免费高效的图床管理工具</title>
       <link href="/2020/04/10/PicGo-%E4%B8%80%E6%AC%BE%E5%85%8D%E8%B4%B9%E9%AB%98%E6%95%88%E7%9A%84%E5%9B%BE%E5%BA%8A%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/"/>
       <url>/2020/04/10/PicGo-%E4%B8%80%E6%AC%BE%E5%85%8D%E8%B4%B9%E9%AB%98%E6%95%88%E7%9A%84%E5%9B%BE%E5%BA%8A%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</url>
@@ -47,9 +101,9 @@
       
         <tags>
             
-            <tag> v2ray </tag>
-            
             <tag> vpn </tag>
+            
+            <tag> v2ray </tag>
             
         </tags>
       
