@@ -1299,9 +1299,9 @@
       
         <tags>
             
-            <tag> k8s </tag>
-            
             <tag> dokcer </tag>
+            
+            <tag> k8s </tag>
             
             <tag> 容器 </tag>
             
